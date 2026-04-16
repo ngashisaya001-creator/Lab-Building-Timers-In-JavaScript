@@ -19,4 +19,23 @@ function countdownTimer(startTime, interval) {
   // Return the timer ID for validation
 }
 
+
+function countdownTimer(duration) {
+  let timeLeft = duration;
+
+
+
+  const timeerId = setInterval(() => {
+    console.log(`time remaining: ${timeLeft}`);
+    
+
+
+    if (timeLeft < 0) {
+      clearInterval(timeerId);
+    } else {
+      timeLeft--;
+    }
+  }, 1000);
+  return timeerId;
+}
 module.exports = { countdownTimer };
