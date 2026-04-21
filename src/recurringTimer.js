@@ -22,27 +22,50 @@
  * Example Usage:
  * stopRecurringTimer(timerId); // Stops the recurring timer started with the given ID.
  */
+
+
 function recurringTimer(message, interval) {
   // Set up a timer using setInterval to log the message
-  // Return the timer ID
-}
 
-function stopRecurringTimer(timerId) {
-  // Stop the timer using clearInterval
-}
+  // Set up a timer using setInterval.
+  // Unlike setTimeout which fires ONCE, setInterval fires FOREVER
+  // at every "interval" ms — until clearInterval is called.
+  // "stopped" is a simple boolean flag shared via closure.
 
-let recurringId;
+  const state = { stopped: false };
+  const timerId = setInterval(function () {
 
-function starRecurringTimer(message, interval) {
-  recurringId = setInterval(() => {
+
+          // If stopRecurringTimer() already set stopped=true,
+        if (state.stopped) {
+      return;
+    }
+
+ // Log the message on every single tick.
+  // This keeps repeating indefinitely until stopRecurringTimer() is called.
     console.log(message);
-  }, interval);
+ 
+  }, interval); // fires every "interval" ms
 
-  return recurringId;
 
+ timerId._state = state;
+ 
+  // Return the timer ID
+  return timerId; //The caller passes it to stopRecurringTimer() to stop it.
 }
-function stopRecurringTimer(Id) {
-  clearInterval(Id || recurringId);
-}
 
-module.exports = { starRecurringTimer, stopRecurringTimer };
+function stopRecurringTimer(timerId){
+  // Set stopped=true on the shared state object B clearInterval.
+  if (timerId._state) {
+    timerId._state.stopped = true;
+  }
+ 
+  // Cancel the interval permanently.
+  clearInterval(timerId);
+ 
+  // Test checks for this exact log message.
+  console.log("Timer stopped");
+}
+ 
+module.exports = { recurringTimer, stopRecurringTimer };
+ 

@@ -12,20 +12,25 @@
  */
 function delayedReminder(message, delay) {
   // Return a promise
-  // Use setTimeout to log the message after the specified delay
-  // Resolve the promise once the message is logged
-}
-function delayRemainder(message, delay) {
-  
-  //returning promise here
-  return new Promises((resolve) => {
-    setTimeout(() => {
-      console.log(message);
-      resolve(message);
+  //The promise has no result now but it  will have it later on, thats why i will use "await dailyRemainer(...)" to wait it to finish.
+  return new Promise(function (resolve) {
 
-    }, delay);
+  // Use setTimeout to log the message after the specified delay
+  //Since now JS has no pause it will use the timeout and continues to moving on
+
+  setTimeout(function () {
+//Log the reminder message to the console.
+      console.log(message);
+ 
+  // Resolve the promise once the message is logged, in whch the "reslove" signals that the asyn that its work is done
+   resolve(message);
+ 
+    }, delay); // wait "delay" ms before firing
+ 
   });
 }
-
-
+ 
+// Export so the test file can import and use this function.
 module.exports = { delayedReminder };
+ 
+
